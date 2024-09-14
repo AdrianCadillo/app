@@ -15,7 +15,26 @@ abstract class ClasesAbstractos{
  */
 class Implementacion extends ClasesAbstractos
 {
-    public function Attemp(array $credencials):bool{
-
+    private array $credenciales;
+    public function __construct()
+    {
+        $this->credenciales = [
+            "login" => "admin",
+            "password" => "123456789"
+        ];
     }
+    public function Attemp(array $credencials):bool{
+      return $credencials["login"] === $this->credenciales["login"]
+             and $credencials["password"] === $this->credenciales["password"];
+    }
+}
+
+
+$implementacion = new Implementacion;
+
+if($implementacion->Attemp(["login" => "admin1","password" => "123456789"]))
+{
+    echo "BIENVENIDO AL SISTEMA!";
+}else{
+    echo "ERROR CREDENCIALES";
 }

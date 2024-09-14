@@ -1,7 +1,12 @@
-<?php 
+<?php
+
+use logica\Ejercicio;
 session_start();
+require 'Ejercicio.php';
 if(isset($_GET["accion"]))
 {
+    $logica = new Ejercicio;
+    $Errores = [];
     switch($_GET["accion"]):
      case "zodiacal":
          if(empty($_POST["fecha_nac"])){
@@ -135,6 +140,52 @@ if(isset($_GET["accion"]))
             } 
         }
         header("location:../views/ejercicio3.php");
+     break;  
+     
+     case "subcadena_ejer1":
+       EjercicioSubCadena(
+        $_POST["texto"],
+        $_POST["inicio"],
+        $_POST["final"],
+        $Errores,
+        $logica
+       );
      break;   
     endswitch;    
+}
+
+
+
+
+/**
+ * Funciones
+ */
+
+function EjercicioSubCadena(string $texto,$inicio,$final,$Errores = [],$objeto)
+{
+    if(empty($texto))
+    {
+       $Errores [] = "Ingrese un texto!";
+    }
+
+    if(empty($inicio))
+    {
+       $Errores [] = "Ingrese la inicial!";
+    }
+
+    if(empty($final))
+    {
+       $Errores [] = "Ingrese la final!";
+    }
+
+
+    if(count($Errores) > 0){
+        $_SESSION["errores"] = $Errores;
+    }else{
+     $response = $objeto->ejercicio1($texto,$inicio,$final);
+
+     $_SESSION["success"] = $response;
+    }
+
+    header("location:../views/ejerciciosubcadena.php");
 }
